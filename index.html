@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fast Attendance</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <select id="classSelect">
+            <!-- Add classes here -->
+            <option value="physics-1">Physics - 1</option>
+            <option value="sdev-3">Software Development - 3</option>
+            <option value="physics-5">Physics - 5</option>
+            <option value="physics-4">Physics - 4</option>
+            <option value="ai-6">AI - 6</option>
+        </select>
+        <form id="attendanceForm">
+            <input type="text" id="classStartTime" placeholder="Enter class start time" value="08:15">
+            <input type="text" id="studentName" placeholder="Enter student name" list="students">
+            <datalist id="students"></datalist>
+            <button type="submit">Submit</button>
+        </form>
+        <button id="storeButton">Store</button>
+        <ul id="attendanceList"></ul>
+        <script src="script.js"></script>
+    </body>
+</html>
