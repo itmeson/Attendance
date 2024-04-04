@@ -5,19 +5,23 @@ document.getElementById('searchButton').addEventListener('click', function() {
     fetch('combined.json')
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            var attendance = data.attendance;
-            var tardies = attendance.filter(function(record) {
-                return record.name === studentName && record.status === 'T';
+            var allTardies = [];
+
+            data.forEach(function(dayData) {
+                var attendance = dayData.attendance;
+                var tardies = attendance.filter(function(record) {
+                    return record.name === studentName && record.status === 'T';
+                });
+                allTardies = allTardies.concat(tardies);
             });
 
-            var totalTardiness = tardies.reduce(function(total, record) {
-                var startTime = new Date('1970-01-01T' + data.metadata.startTime + ':00Z');
+            var totalTardiness = allTardies.reduce(function(total, record) {
+                var startTime = new Date('1970-01-01T' + record.metadata.startTime + ':00Z');
                 var arrivalTime = new Date('1970-01-01T' + record.time + ':00Z');
                 return total + (arrivalTime - startTime) / 60000; // Convert milliseconds to minutes
             }, 0);
 
-            resultDiv.textContent = studentName + ' was tardy ' + tardies.length + ' times. Total tardiness: ' + totalTardiness + ' minutes.';
+            resultDiv.textContent = studentName + ' was tardy ' + allTardies.length + ' times. Total tardiness: ' + totalTardiness + ' minutes.';
         })
         .catch(error => console.error('Error:', error));
 });
