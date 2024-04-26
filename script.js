@@ -16,8 +16,10 @@ function determineTardiness(li) {
     } else if (li.classList.contains('present')) {
         li.classList.remove('present');
         statusDiv.textContent = 'A';
+        li.classList.add('absent');
     } else {
         // If the student is absent, change the status to present or tardy based on the time
+        li.classList.remove('absent');
         if (currentTime >= tardyTime) {
             li.classList.add('tardy');
             statusDiv.textContent = 'T';
@@ -26,6 +28,7 @@ function determineTardiness(li) {
             statusDiv.textContent = 'P';
         }
     }
+    updateCounters();
 }
 
 document.getElementById('attendanceForm').addEventListener('submit', function(e) {
@@ -34,6 +37,7 @@ document.getElementById('attendanceForm').addEventListener('submit', function(e)
     var lis = Array.from(document.querySelectorAll('li')); // Get all li elements and convert NodeList to Array
     var li = lis.find(li => li.textContent.includes(submittedName)); // Find the li that contains the submitted name
     determineTardiness(li);
+    updateCounters();
 });
 
 
@@ -114,7 +118,15 @@ function loadClass(className) {
                 var timeDiv = document.createElement('div');
                 timeDiv.className = 'time';
                 timeDiv.textContent = '\xa0'; // Non-breaking space
+                timeDiv.setAttribute('contentEditable', 'true'); // Make the timeDiv editable
+                timeDiv.addEventListener('blur', function() {
+                    // Validate and save the new time here
+                    var newTime = this.textContent;
+                    // Validate newTime here
+                    // Save newTime here
+                });
                 li.appendChild(timeDiv);
+
 
                 attendanceList.appendChild(li);
 
@@ -126,6 +138,7 @@ function loadClass(className) {
                 var statusDiv = document.createElement('div');
                 statusDiv.classList.add('status');
                 statusDiv.textContent = 'A'; // Set the initial status to 'A' for absent
+                li.classList.add('absent');
                 li.appendChild(statusDiv);
 
                 statusDiv.addEventListener('click', function() {
@@ -142,6 +155,7 @@ function loadClass(className) {
                         li.classList.remove('tardy');
                         li.classList.add('absent');
                     }
+                    updateCounters();
                 });
 
                 li.addEventListener('click', function(e) {
@@ -152,6 +166,7 @@ function loadClass(className) {
             });
             document.getElementById('studentName').value = data[0];
         });
+        updateCounters();
 }
 
 document.getElementById('classSelect').addEventListener('change', function() {
@@ -161,3 +176,36 @@ document.getElementById('classSelect').addEventListener('change', function() {
 window.onload = function() {
     loadClass(document.getElementById('classSelect').value);
 };
+
+// Assuming you have a function to calculate the number of students in each category
+function updateCounters() {
+    var totalStudents = calculateTotalStudents();
+    var presentStudents = calculatePresentStudents();
+    var absentStudents = calculateAbsentStudents();
+    var tardyStudents = calculateTardyStudents();
+
+    document.getElementById('totalStudents').textContent = totalStudents;
+    document.getElementById('presentStudents').textContent = presentStudents;
+    document.getElementById('absentStudents').textContent = absentStudents;
+    document.getElementById('tardyStudents').textContent = tardyStudents;
+}
+
+// Call updateCounters whenever a student's status changes
+// For example:
+document.getElementById('attendanceList').addEventListener('change', updateCounters);
+
+function calculateTotalStudents() {
+    return document.getElementById('attendanceList').children.length;
+}
+
+function calculatePresentStudents() {
+    return document.querySelectorAll('#attendanceList .present').length;
+}
+
+function calculateAbsentStudents() {
+    return document.querySelectorAll('#attendanceList .absent').length;
+}
+
+function calculateTardyStudents() {
+    return document.querySelectorAll('#attendanceList .tardy').length;
+}

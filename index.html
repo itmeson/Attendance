@@ -12,6 +12,7 @@
             <option value="physics-5">Physics - 5</option>
             <option value="physics-4">Physics - 4</option>
             <option value="ai-6">AI - 6</option>
+            <option value="edmonds">Edmonds</option>
         </select>
         <form id="attendanceForm">
             <input type="text" id="classStartTime" placeholder="Enter class start time" value="08:15">
@@ -20,6 +21,14 @@
             <button type="submit">Submit</button>
         </form>
         <button id="storeButton">Store</button>
+
+        <div id="counters">
+            <p>Total students: <span id="totalStudents">0</span></p>
+            <p>Present: <span id="presentStudents">0</span></p>
+            <p>Absent: <span id="absentStudents">0</span></p>
+            <p>Tardy: <span id="tardyStudents">0</span></p>
+        </div>
+        
         <ul id="attendanceList"></ul>
         <script src="script.js"></script>
     </body>
