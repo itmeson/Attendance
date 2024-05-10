@@ -5,10 +5,29 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <input type="text" id="studentName" placeholder="Enter student name">
-        <input type="file" id="fileInput">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+        
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+        
         <button id="searchButton">Search</button>
-        <div id="result"></div>
+
+        <label for="classSelect">Class:</label>
+            <select id="classSelect">
+                <option value="">All</option>
+                <!-- Add an option for each class -->
+                <option value="ai-6">AI - 6</option>
+                <option value="sdev-3">Software - 3</option>
+                <option value="physics-1">Physics - 1</option>
+                <option value="physics-4">Physics - 4</option>
+                <option value="physics-5">Physics - 5</option>
+
+                <!-- ... -->
+            </select>
+    
+        <div id="tardyList"></div>
+
         <script src="analysis.js"></script>
     </body>
 </html>
