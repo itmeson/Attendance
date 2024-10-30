@@ -3,7 +3,7 @@ import os
 import glob
 
 # Specify the directory containing the JSON files
-directory = 'C:\\Users\\SAAS_User\\Downloads\\'
+directory = 'data\\'
 
 # Get a list of all JSON files in the directory
 files = glob.glob(os.path.join(directory, '*-*_*.json'))

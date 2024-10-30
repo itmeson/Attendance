@@ -98,6 +98,14 @@ function loadClass(className) {
             var datalist = document.getElementById('students');
             attendanceList.innerHTML = '';
             datalist.innerHTML = '';
+
+            // Sort data by first name
+            data.sort((a, b) => {
+                const nameA = a.split(' ');
+                const nameB = b.split(' ');
+                return nameA[0].localeCompare(nameB[0]);
+            });
+
             data.forEach(student => {
                 var li = document.createElement('li');
                 li.style.display = 'flex';
@@ -209,3 +217,33 @@ function calculateAbsentStudents() {
 function calculateTardyStudents() {
     return document.querySelectorAll('#attendanceList .tardy').length;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleSortOrderButton = document.getElementById('toggleSortOrder');
+    const studentList = document.getElementById('attendanceList');
+    let sortByFirstName = true;
+
+    toggleSortOrderButton.addEventListener('click', function() {
+        sortByFirstName = !sortByFirstName;
+        sortStudentList();
+    });
+
+    function sortStudentList() {
+        const students = Array.from(studentList.children);
+        students.sort((a, b) => {
+            const nameA = a.textContent.split(' ');
+            const nameB = b.textContent.split(' ');
+
+            if (sortByFirstName) {
+                return nameA[0].localeCompare(nameB[0]);
+            } else {
+                return nameA[1].localeCompare(nameB[1]);
+            }
+        });
+
+        students.forEach(student => studentList.appendChild(student));
+    }
+
+    // Initial sort by last name
+    sortStudentList();
+});
